@@ -11,6 +11,29 @@
     <title>Title</title>
 </head>
 <body>
+<form action="addGame" id="addGameForm">
+    <div>
+        <span></span>
+        <input type="text" name="gameName">
+    </div>
 
+    <div>
+        <span></span>
+        <input type="text" name="gameType">
+    </div>
+
+    <div>
+        <span></span>
+        <input type="text" name="gameCompany">
+    </div>
+
+    <div>
+        <span></span>
+        <input type="text" name="gameYear">
+    </div>
+
+</form>
+
+<button onclick="">添加</button>
 </body>
 </html>
