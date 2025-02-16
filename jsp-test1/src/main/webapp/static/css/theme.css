@@ -1,0 +1,33 @@
+
+* {
+    margin: 0;
+    padding: 0;
+}
+
+.title {
+    text-align: center;
+    font-size: 35px;
+    margin: 10px;
+    font-weight: 600;
+}
+
+.table-container {
+    text-align: center;
+}
+
+.form-container {
+    text-align: center;
+}
+
+table {
+    display: inline-block;
+    text-align: center;
+    border-collapse: collapse;
+    border: 1px;
+}
+
+
+
+
+
+

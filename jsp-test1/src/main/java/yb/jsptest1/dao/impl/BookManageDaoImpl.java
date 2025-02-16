@@ -36,6 +36,8 @@ public class BookManageDaoImpl extends BaseDaoImpl implements IBookManageDao {
 
         } catch (SQLException e) {
             e.printStackTrace();
+        } finally {
+            close(resultSet,statement,connection);
         }
 
         return bookManages;
@@ -57,6 +59,8 @@ public class BookManageDaoImpl extends BaseDaoImpl implements IBookManageDao {
 
         } catch (SQLException e) {
             e.printStackTrace();
+        }finally {
+            close(resultSet,statement,connection);
         }
 
         return i;
@@ -81,6 +85,8 @@ public class BookManageDaoImpl extends BaseDaoImpl implements IBookManageDao {
 
         } catch (SQLException e) {
             e.printStackTrace();
+        } finally {
+            close(resultSet,statement,connection);
         }
 
         return i;
