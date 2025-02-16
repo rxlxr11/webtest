@@ -13,6 +13,9 @@
 
 .table-container {
     text-align: center;
+    border: 1px;
+    border-collapse: collapse;
+    border-color: black;
 }
 
 .form-container {

@@ -63,7 +63,7 @@
     </table>
 </div>
 
-<div>
+<div style="text-align: center">
     <a href="toAddBook" style="text-decoration:none"  >新增图书信息</a>
 </div>
 
