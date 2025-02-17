@@ -8,5 +8,5 @@ public interface IGamesDao extends IBaseDao{
     ArrayList<Games> queryByCondition(Games game);
     Integer addOne(Games game);
     ArrayList<String> queryAllName();
-    Games queryByName(String gameName);
+    ArrayList<Games> queryByName(String gameName);
 }

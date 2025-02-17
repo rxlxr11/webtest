@@ -42,17 +42,28 @@
 
 <script type="text/javascript">
 
+
+  var gameJson;
+
   function confirmForm(){
-    setCondition();
+    var gameYear=$("input[name='gameYear']").val();
+    if (/^\d{4}$/.test(gameYear)||gameYear==null||gameYear==''){
+      setCondition(gameJson);
+    }else {
+      alert("发行年份为四位数字")
+    }
+
   }
 
-  function setCondition(){
+  function setCondition(gameJson){
+
     var game ={}
     game.gameName=$("input[name='gameName']").val();
     game.gameType=$("input[name='gameType']").val();
     game.gameCompany=$("input[name='gameCompany']").val();
     game.gameYear=$("input[name='gameYear']").val();
-    var gameJson = JSON.stringify(game);
+    gameJson=JSON.stringify(game);
+
     $.ajax({
       url: "setCondition",
       type: "post",
@@ -62,7 +73,6 @@
       success: function (){
 
           window.location.href="toGameList"
-
 
       },
       error: function (){}

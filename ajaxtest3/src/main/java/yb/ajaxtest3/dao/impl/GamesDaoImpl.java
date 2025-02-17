@@ -12,6 +12,7 @@ import java.util.ArrayList;
 public class GamesDaoImpl extends BaseDaoImpl implements IGamesDao {
     @Override
     public ArrayList<Games> queryByCondition(Games game) {
+        System.out.println("dao"+game);
         Connection connection = null;
         PreparedStatement statement = null;
         ResultSet resultSet = null;
@@ -27,7 +28,7 @@ public class GamesDaoImpl extends BaseDaoImpl implements IGamesDao {
 
             if (game.getGameName()!=null&&!game.getGameName().equals("")){
                 flag = true;
-                objects.add(game.getGameName());
+                objects.add("%"+game.getGameName()+"%");
                 stringBuffer.append(" gamename like ? and ");
             }
 
@@ -96,7 +97,7 @@ public class GamesDaoImpl extends BaseDaoImpl implements IGamesDao {
         connection = getConnection();
         try {
             statement = connection.prepareStatement("insert into games values (default,?,?,?,?)");
-            statement.setString(1,"%"+game.getGameName()+"%");
+            statement.setString(1,game.getGameName());
             statement.setString(2,game.getGameType());
             statement.setString(3,game.getGameCompany());
             statement.setInt(4,game.getGameYear());
@@ -134,12 +135,12 @@ public class GamesDaoImpl extends BaseDaoImpl implements IGamesDao {
     }
 
     @Override
-    public Games queryByName(String gameName) {
+    public ArrayList<Games> queryByName(String gameName) {
         Connection connection = null;
         PreparedStatement statement = null;
         ResultSet resultSet = null;
 
-        Games games = new Games();
+        ArrayList<Games> games = new ArrayList<>();
 
         try {
             connection = getConnection();
@@ -147,11 +148,13 @@ public class GamesDaoImpl extends BaseDaoImpl implements IGamesDao {
             statement.setString(1,gameName);
             resultSet = statement.executeQuery();
             while (resultSet.next()){
-                games.setGameCompany(resultSet.getString("gameCompany"));
-                games.setGameYear(resultSet.getInt("gameYear"));
-                games.setGameName(resultSet.getString("gameName"));
-                games.setGameType(resultSet.getString("gameType"));
-                games.setGameId(resultSet.getLong("gameId"));
+                Games game = new Games();
+                game.setGameCompany(resultSet.getString("gameCompany"));
+                game.setGameYear(resultSet.getInt("gameYear"));
+                game.setGameName(resultSet.getString("gameName"));
+                game.setGameType(resultSet.getString("gameType"));
+                game.setGameId(resultSet.getLong("gameId"));
+                games.add(game);
             }
 
 

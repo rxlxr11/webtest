@@ -23,6 +23,8 @@ public class SetConditionServlet extends javax.servlet.http.HttpServlet {
         //Games game = JSONObject.parseObject(stringBuilder.toString(), Games.class);
         String string = stringBuilder.toString();
         System.out.println(string);
+//        request.setAttribute("gameCondition", string);
+//        request.getRequestDispatcher("/WEB-INF/gameList.jsp").forward(request,response);
         HttpSession session = request.getSession();
         session.setAttribute("gameCondition", string);
 

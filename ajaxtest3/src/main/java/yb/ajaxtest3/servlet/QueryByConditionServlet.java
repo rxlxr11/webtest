@@ -15,6 +15,8 @@ public class QueryByConditionServlet extends javax.servlet.http.HttpServlet {
     }
 
     protected void doGet(javax.servlet.http.HttpServletRequest request, javax.servlet.http.HttpServletResponse response) throws javax.servlet.ServletException, java.io.IOException {
+        request.setCharacterEncoding("UTF-8");
+        response.setCharacterEncoding("UTF-8");
         BufferedReader reader = request.getReader();
         String line = null;
         StringBuilder stringBuilder = new StringBuilder();
@@ -23,13 +25,16 @@ public class QueryByConditionServlet extends javax.servlet.http.HttpServlet {
             stringBuilder.append(line);
         }
 
+        System.out.println("sb"+stringBuilder);
+
         Games game = JSONObject.parseObject(stringBuilder.toString(), Games.class);
         System.out.println(game);
 
         GamesDaoImpl gamesDao = new GamesDaoImpl();
         ArrayList<Games> games = gamesDao.queryByCondition(game);
+        System.out.println(games);
         response.getWriter().write(JSONObject.toJSONString(games));
-        request.getRequestDispatcher("/WEB-INF/gameList.jsp").forward(request, response);
+
 
     }
 }
