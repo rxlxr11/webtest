@@ -16,6 +16,7 @@
     <div>
         <span></span>
         <input type="text" name="petName" required>
+        <span hidden="hidden" id="errMsg">昵称重复</span>
     </div>
 
     <div>
@@ -53,17 +54,61 @@
 
 <script type="text/javascript">
 
-    function confirmForm(){
-        var msg='';
-        var flag = false;
+    $("input[name='petName']").change(queryByName)
+    var msg='';
+    var flag = false;
 
+    function queryByName(){
         var petName=$("input[name='petName']").val();
-        var petSex=$("input[name='petSex']").val();
+        $.ajax({
+            url: "queryByName",
+            type: "get",
+            data: {"name":petName},
+            dataType: "text",
+            success: function (result){
+                if (result=="no"){
+                    $("#errMsg").prop("hidden",false)
+                    msg="昵称重复";
+                    flag = true;
+
+                }else {
+                    $("#errMsg").prop("hidden",true)
+                    msg = "";
+                    flag = false;
+                }
+            },
+            error: function (){ alert("网络忙")}
+        })
+    }
+
+    function confirmForm(){
+        var petName=$("input[name='petName']").val();
         var birthday=$("input[name='birthday']").val();
         var petBreed=$("select[name='petBreed']").val();
 
-        if (){
+        if (petName==null||petName==""){
+            msg+="昵称为空"
+            flag = true
+        }
 
+        if (petBreed=="--请选择--"){
+            msg+="品种未选择"
+            flag = true
+        }
+
+        if (birthday==null||birthday==""){
+            msg+="日期为空"
+            flag = true
+        } else if (!/^\d{4}-\d{2}-\d{2}$/.test(birthday)){
+            msg+="日期格式为yyyy-MM-dd"
+            flag = true
+        }
+
+        if (!flag){
+            addPet();
+        }else {
+            alert(msg);
+            msg="";
         }
     }
 
@@ -86,7 +131,7 @@
             success: function (result){
                 if (result=="success"){
                     alert("新增成功");
-                    window.location.href="queryAll"
+                    window.location.href="toQueryAll"
                 }else {
                     alert("新增失败")
                 }

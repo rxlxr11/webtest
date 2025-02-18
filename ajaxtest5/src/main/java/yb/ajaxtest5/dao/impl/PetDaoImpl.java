@@ -44,7 +44,34 @@ public class PetDaoImpl extends BaseDaoImpl implements IPetDao {
 
     @Override
     public ArrayList<Pet> queryByName(String name) {
-        return null;
+        Connection connection = null;
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
+        ArrayList<Pet> pets = new ArrayList<>();
+        try {
+            connection = getConnection();
+            statement = connection.prepareStatement("select * from pet where petName=?");
+            statement.setString(1,name);
+            resultSet = statement.executeQuery();
+
+            while (resultSet.next()){
+                Pet pet = new Pet();
+                pet.setPetId(resultSet.getInt("petId"));
+                pet.setPetName(resultSet.getString("petName"));
+                pet.setPetBreed(resultSet.getString("petBreed"));
+                pet.setPetSex(resultSet.getString("petSex"));
+                pet.setBirthday((Date) resultSet.getObject("birthday"));
+                pet.setDesc(resultSet.getString("desc"));
+                pets.add(pet);
+            }
+
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            close(resultSet,statement,connection);
+        }
+        return pets;
     }
 
     @Override

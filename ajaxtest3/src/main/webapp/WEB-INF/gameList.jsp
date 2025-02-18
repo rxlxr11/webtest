@@ -100,8 +100,6 @@
                     window.location.href = "toGameList"
                 }
 
-
-
             },
             error: function () {
             }

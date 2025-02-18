@@ -15,7 +15,8 @@
 <form id="addGameForm">
   <div>
     <span></span>
-    <input type="text" name="gameName" required>
+    <input type="text" name="gameName" id="nameInput" required>
+    <span id="errMsg" hidden="hidden">游戏名重复</span>
   </div>
 
   <div>
@@ -35,56 +36,69 @@
 
 </form>
 
-<button onclick="confirmName()">添加</button>
+<button onclick="confirmForm()">添加</button>
 </body>
 
 </html>
 
 <script type="text/javascript">
-  async function confirmName(){
-    var flag = false;
-    var msg = ""
+
+  $("#nameInput").change(queryByName);
+  var flag = false
+  var msg=""
+
+  function queryByName(){
+    var gameName = $("input[name='gameName']").val()
+    $.ajax({
+      url: "queryByName",
+      type: "get",
+      data: {"gameName":gameName},
+      dataType: "text",
+      success: function (result){
+        if (result=="no"){
+          $("#errMsg").prop("hidden", false);
+          msg+="游戏名重复"
+          flag = true
+        }else {
+          $("#errMsg").prop("hidden", true);
+          msg=""
+          flag = false
+        }
+      },
+      error: function (){}
+    })
+  }
+
+  function confirmForm(){
+
     var gameName = $("input[name='gameName']").val()
     var gameYear = $("input[name='gameYear']").val()
-    if (!(/^\d{4}$/.test(gameYear))&&gameYear!=null&&gameYear!=''){
+
+    if (gameYear==null||gameYear==''){
+      msg+="年份为空"
+      flag = true
+    }else if (!(/^\d{4}$/.test(gameYear))){
       msg+="年份为4位数字"
       flag = true
     }
 
+
     if (gameName==null||gameName=='')
     {
-      alert("ceshi2")
       msg+="游戏名为空"
       flag = true
-    }else {
-      await $.ajax({
-        url: "queryByName",
-        type: "get",
-        data: {"gameName":gameName},
-        dataType: "text",
-        success: function (result){
-          if (result=="no"){
-            alert("ceshi 1")
-            msg += "游戏名重复";
-            flag = true;
-          }else {
-            alert("测试")
-          }
-        },
-        error: function (){}
-      })
     }
 
     if (!flag){
       addGame()
     }else {
       alert(msg)
+      msg = ""
     }
-
 
   }
 
-  async function addGame(){
+  function addGame(){
     var game={};
     game.gameName = $("input[name='gameName']").val()
     game.gameType = $("input[name='gameType']").val()
@@ -92,7 +106,7 @@
     game.gameYear = $("input[name='gameYear']").val()
     var gameJson = JSON.stringify(game);
 
-    await $.ajax({
+    $.ajax({
       url: "addGame",
       type: "post",
       data: gameJson,
