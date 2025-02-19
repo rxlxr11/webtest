@@ -9,11 +9,12 @@
 <html>
 <head>
     <title>Title</title>
+    <link rel="stylesheet" href="static/css/theme.css">
 </head>
 <script src="static/js/jquery.js"></script>
 <body>
 <button onclick="toQueryByCondition()">返回</button>
-<table>
+<table border="1px" >
     <tr>
         <th>游戏列表</th>
     </tr>

@@ -14,13 +14,13 @@
 <body>
 <form >
     <div>
-        <span></span>
+        <span>宠物昵称</span>
         <input type="text" name="petName" required>
         <span hidden="hidden" id="errMsg">昵称重复</span>
     </div>
 
     <div>
-        <span></span>
+        <span>宠物种类</span>
         <select name="petBreed" id="breedSelect" required>
             <option value="--请选择--">--请选择--</option>
             <option value="狗">狗</option>
@@ -31,7 +31,7 @@
     </div>
 
     <div>
-        <span>性别</span>
+        <span>宠物性别</span>
         <label for="male">雄</label>
         <input type="radio" id="male" value="雄" name="petSex" checked>
         <label for="female">雌</label>
@@ -39,12 +39,12 @@
     </div>
 
     <div>
-        <span></span>
+        <span>出生日期</span>
         <input type="text" name="birthday" required>
     </div>
 
     <div>
-        <span></span>
+        <span>宠物描述</span>
         <textarea name="petDesc"></textarea>
     </div>
 </form>

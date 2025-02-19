@@ -9,6 +9,7 @@
 <html>
 <head>
     <title>Title</title>
+    <link rel="stylesheet" href="static/css/theme.css">
 </head>
 <script src="static/js/jquery.js"></script>
 <body>
@@ -22,7 +23,7 @@
 </select>
 
 <button onclick="queryByBreed()">查询</button>
-<table>
+<table border="1px">
     <tr id="t1">
         <th>宠物昵称</th>
         <th>出生日期</th>

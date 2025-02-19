@@ -10,10 +10,11 @@
 <html>
 <head>
     <title>Title</title>
+  <link rel="stylesheet" href="static/css/theme.css">
 </head>
 <body>
 
-<table>
+<table border="1px">
   <tr>
     <th>编号</th>
     <th>姓名</th>

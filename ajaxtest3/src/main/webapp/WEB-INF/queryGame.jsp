@@ -9,27 +9,28 @@
 <html>
 <head>
     <title>Title</title>
+  <link rel="stylesheet" href="static/css/theme.css">
 </head>
 <script src="static/js/jquery.js"></script>
 <body>
 <form id="queryForm">
   <div>
-    <span></span>
+    <span>游戏名称</span>
     <input type="text" name="gameName">
   </div>
 
   <div>
-    <span></span>
+    <span>游戏类型</span>
     <input type="text" name="gameType">
   </div>
 
   <div>
-    <span></span>
+    <span>发行公司</span>
     <input type="text" name="gameCompany">
   </div>
 
   <div>
-    <span></span>
+    <span>发行年份</span>
     <input type="text" name="gameYear">
   </div>
 

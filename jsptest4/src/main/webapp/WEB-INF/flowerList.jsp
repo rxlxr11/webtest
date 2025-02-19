@@ -10,10 +10,11 @@
 <html>
 <head>
     <title>Title</title>
+    <link rel="stylesheet" href="static/css/theme.css">
 </head>
 <body>
 <a href="toAddFlower">新增</a>
-<table>
+<table border="1px">
     <tr>
         <th>花卉编号</th>
         <th>花卉名称</th>

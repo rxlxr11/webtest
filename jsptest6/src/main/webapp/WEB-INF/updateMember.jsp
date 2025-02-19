@@ -9,39 +9,39 @@
 <html>
 <head>
     <title>Title</title>
+    <link rel="stylesheet" href="static/css/theme.css">
 </head>
 <script src="static/js/jquery.js"></script>
 <body>
 <form action="updateById" id="updateForm">
     <input type="text" name="id" value="${member.id}" hidden="hidden" readonly="readonly">
     <div>
-        <span></span>
+        <span>成员姓名</span>
         <input type="text" name="mName" value="${member.mName}">
     </div>
 
-    <div>
-        <span></span>
-        <div>
-            <span></span>
-            <label for="male">男</label>
-            <input type="radio" name="mGender" value="男" id="male" ${member.mGender == '男' ? 'checked' : ''}>
-            <label for="female">女</label>
-            <input type="radio" name="mGender" value="女" id="female" ${member.mGender == '女' ? 'checked' : ''}>
-        </div>
-    </div>
 
     <div>
-        <span></span>
+        <span>成员性别</span>
+        <label for="male">男</label>
+        <input type="radio" name="mGender" value="男" id="male" ${member.mGender == '男' ? 'checked' : ''}>
+        <label for="female">女</label>
+        <input type="radio" name="mGender" value="女" id="female" ${member.mGender == '女' ? 'checked' : ''}>
+    </div>
+
+
+    <div>
+        <span>成员年龄</span>
         <input type="text" name="mAge" value="${member.mAge}">
     </div>
 
     <div>
-        <span></span>
+        <span>成员地址</span>
         <input type="text" name="mAddress" value="${member.mAddress}">
     </div>
 
     <div>
-        <span></span>
+        <span>成员邮箱</span>
         <input type="text" name="mEmail" value="${member.mEmail}">
     </div>
 </form>
@@ -58,19 +58,19 @@
         var name = $("input[name='mName']").val();
         var age = $("input[name='mAge']").val();
 
-        if (name==null||name==""){
-            msg+="姓名为空";
+        if (name == null || name == "") {
+            msg += "姓名为空";
             flag = true;
         }
 
-        if (age=null||age==""){
-            msg+="年龄为空";
+        if (age = null || age == "") {
+            msg += "年龄为空";
             flag = true;
         }
 
-        if (!flag){
+        if (!flag) {
             $("#updateForm").submit();
-        }else {
+        } else {
             alert(msg)
         }
 

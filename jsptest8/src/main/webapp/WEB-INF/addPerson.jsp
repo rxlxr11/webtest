@@ -9,17 +9,18 @@
 <html>
 <head>
     <title>Title</title>
+    <link rel="stylesheet" href="static/css/theme.css">
 </head>
 <body>
 <form action="addPerson">
     <div>
 
-        <span></span>
+        <span>姓名</span>
         <input type="text" name="personName" required>
     </div>
 
     <div>
-        <span></span>
+        <span>性别</span>
         <select  name="sex" required>
             <option value="err">-请选择-</option>
             <option value="男">男</option>
@@ -28,12 +29,12 @@
     </div>
 
     <div>
-        <span></span>
+        <span>年龄</span>
         <input type="text" name="age" required>
     </div>
 
     <div>
-        <span></span>
+        <span>等级</span>
         <select  name="rank" required>
             <option value="err">-请选择-</option>
             <option value="1级">1级</option>
@@ -42,7 +43,7 @@
     </div>
 
     <div>
-        <span></span>
+        <span>部门</span>
         <select  name="department" required>
             <option value="err">-请选择-</option>
             <option value="开发部">开发部</option>

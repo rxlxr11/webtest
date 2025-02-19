@@ -9,11 +9,12 @@
 <html>
 <head>
     <title>Title</title>
+  <link rel="stylesheet" href="static/css/theme.css">
 </head>
 <script src="static/js/jquery.js"></script>
 <body>
 <button onclick="toAddBranch()">新增</button>
-<table>
+<table border="1px">
   <tr id="t1">
     <th>网点名称</th>
     <th>所在地区</th>

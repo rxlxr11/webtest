@@ -9,31 +9,32 @@
 <html>
 <head>
     <title>Title</title>
+    <link rel="stylesheet" href="static/css/theme.css">
 </head>
 <script src="static/js/jquery.js"></script>
 <body>
 <form action="addFlower" id="addFlowerForm">
     <div>
-        <span></span>
+        <span>鲜花名称</span>
         <input type="text" name="flowerName" required="required">
     </div>
 
     <div>
-        <span></span>
+        <span>鲜花别名</span>
         <input type="text" name="flowerNickName" required="required">
     </div>
 
     <div>
-        <span></span>
+        <span>鲜花科属</span>
         <input type="text" name="flowerProperty" required="required">
     </div>
 
     <div>
-        <span></span>
+        <span>鲜花价格</span>
         <input type="text" name="flowerPrice" required="required">
     </div>
     <div>
-        <span></span>
+        <span>鲜花产地</span>
         <input type="text" name="flowerProduction" required="required">
     </div>
 
