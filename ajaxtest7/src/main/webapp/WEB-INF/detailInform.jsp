@@ -72,7 +72,7 @@
     }
 
     function backToList(){
-        window.location.href="queryAll"
+        window.location.href="toQueryAll"
     }
 
 
