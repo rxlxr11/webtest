@@ -12,7 +12,7 @@
 </head>
 <script src="static/js/jquery.js"></script>
 <body>
-<button onclick="toAddBranch">新增</button>
+<button onclick="toAddBranch()">新增</button>
 <table>
   <tr id="t1">
     <th>网点名称</th>

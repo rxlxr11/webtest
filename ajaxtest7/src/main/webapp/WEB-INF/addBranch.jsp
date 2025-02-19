@@ -20,7 +20,8 @@
 
     <div>
         <span>营业执照</span>
-        <input type="text" name="businessNo">
+        <input type="text" name="businessNo" id="noInput">
+        <span id="errMsg" hidden="hidden">重复</span>
     </div>
 
     <div>
@@ -48,11 +49,51 @@
 </body>
 </html>
 <script type="text/javascript">
+
+    var msg = "";
+    var flag = false;
+
+    $("#noInput").change(queryByBusinessNo)
+
     function confirmForm(){
-        addBranch();
+        var name=$("input[name='branchName']").val();
+        var businessNo=$("input[name='businessNo']").val();
+        var cityArea=$("input[name='cityArea']").val();
+        var address=$("input[name='branchAddress']").val();
+
+
+        if (name==null||name==""){
+            msg+="名称为空";
+            flag = true;
+        }
+
+        if (businessNo==null||businessNo==""){
+            msg+="编号为空";
+            flag = true;
+        }
+
+
+
+        if (cityArea==null||cityArea==""){
+            msg+="城区为空";
+            flag = true;
+        }
+
+        if (address==null||address==""){
+            msg+="地址为空";
+            flag = true;
+        }
+
+        if (!flag){
+            addBranch();
+        }else {
+            alert(msg);
+            msg="";
+        }
+
     }
 
-    function addBranch(){
+    async function addBranch(){
 
         var branch={}
 
@@ -63,30 +104,48 @@
         branch.branchTelephone=$("input[name='branchTelephone']").val();
         branch.branchSummary=$("textarea[name='branchSummary']").val();
         var branchJson = JSON.stringify(branch);
-        $.ajax({
+        await $.ajax({
             url: "addBranch",
             type: "post",
             data: branchJson,
             dataType: "text",
             contentType: "application/json;utf-8",
             success: function (result){
-                alert(result)
+                if (result=="success"){
+                    alert("新增成功")
+                    window.location.href="toQueryAll"
+                }else {
+                    alert("新增失败")
+                }
             },
             error: function (){}
         })
 
     }
 
-    function queryByBusinessNo(){
-        $.ajax({
-            url: "queryByBusinessName",
+    async function queryByBusinessNo(){
+        var businessNo=$("input[name='businessNo']").val();
+        await $.ajax({
+            url: "queryByBusinessNo",
             type: "get",
             data: {"businessNo":businessNo},
             dataType: "text",
             success: function (result){
+                if (result==0){
+                    $("#errMsg").prop("hidden" ,true);
+                    msg="";
+                    flag = false;
+                }else {
+                    $("#errMsg").prop("hidden" ,false);
+                    msg="重复";
+                    flag = true;
+                }
+
 
             },
-            error: function (){}
+            error: function (){
+
+            }
         })
 
     }
