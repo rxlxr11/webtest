@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <!--此文件负责整个mvc中的配置-->
+
+    <!--启用spring的一些annotation -->
+    <context:component-scan base-package="yb.controller"/>
+    <!-- <context:annotation-config/> -->
+    <!--<context:component-scan base-package="kj08"/>与上相等的 但是比上面的强大ssm一般用这个-->
+    <!--会帮我们注册默认处理请求，参数和返回值的类，其中最主要的两个类：DefaultAnnotationHandlerMapping 和 AnnotationMethodHandlerAdapter ，分别为HandlerMapping的实现类和HandlerAdapter的实现类，从3.1.x版本开始对应实现类改为了RequestMappingHandlerMapping和RequestMappingHandlerAdapter。
+
+ HandlerMapping的实现类的作用
+ 实现类RequestMappingHandlerMapping，它会处理@RequestMapping 注解，并将其注册到请求映射表中。
+
+ HandlerAdapter的实现类的作用
+ 实现类RequestMappingHandlerAdapter，则是处理请求的适配器，确定调用哪个类的哪个方法，并且构造方法参数，返回值。
+
+ 当配置了mvc:annotation-driven/后，Spring就知道了我们启用注解驱动。然后Spring通过context:component-scan/标签的配置，会自动为我们将扫描到的@Component，@Controller，@Service，@Repository等注解标记的组件注册到工厂中，来处理我们的请求。
+ 表示将所有的文件，包含静态资源文件都交给spring mvc处理。就需要用到<mvc:annotation-driven />了。如果不加，DispatcherServlet则无法区分请求是资源文件还是mvc的注解，而导致controller的请求报404错误。
+ -->
+    <mvc:annotation-driven/>
+
+    <!--静态资源映射-->
+    <!--本项目把静态资源放在了webapp的statics目录下，资源映射如下-->
+    <mvc:resources mapping="/css/**" location="/static/css/"/>
+    <mvc:resources mapping="/js/**" location="/static/js/"/>
+    <mvc:resources mapping="/image/**" location="/static/images/"/>
+    <mvc:default-servlet-handler />
+    <!--在springMVC-servlet.xml中配置<mvc:default-servlet-handler />后，会在Spring MVC上下文中定义一个o
+    rg.springframework.web.servlet.resource.DefaultServletHttpRequestHandler，它会像一个检查员，对进入
+    DispatcherServlet的URL进行筛查，如果发现是静态资源的请求，就将该请求转由Web应用服务器默认的Servlet处理，
+    如果不是静态资源的请求，才由DispatcherServlet继续处理。
+    一般Web应用服务器默认的Servlet名称是"default"，因此DefaultServletHttpRequestHandler可以找到它。
+    -->
+    <!-- 对模型视图名称的解析，即在模型视图名称添加前后缀(如果最后一个还是表示文件夹,则最后的斜杠不要漏了) 使用JSP-->
+    <!-- 默认的视图解析器 在上边的解析错误时使用 (默认使用html)- -->
+    <bean id="defaultViewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <property name="prefix" value="/WEB-INF/"/><!--设置JSP文件的目录位置-->
+        <property name="suffix" value=".jsp"/>
+
+    </bean>
+
+    <mvc:interceptors>
+        <!-- 配置一个全局拦截器，拦截所有请求 -->
+        <!-- <bean class="jinpeng.Interceptor.LoginInterceptor" />-->
+        <mvc:interceptor>
+            <mvc:mapping path="/**" />
+            <mvc:exclude-mapping path="/login/**" />
+            <mvc:exclude-mapping path="/static/**" />
+            <bean class="yb.interceptor.LoginInterceptor" />
+        </mvc:interceptor>
+
+    </mvc:interceptors>
+
+
+
+</beans>

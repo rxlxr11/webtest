@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context.xsd
+        http://www.springframework.org/schema/tx
+	    http://www.springframework.org/schema/tx/spring-tx.xsd
+         http://www.springframework.org/schema/aop
+	    http://www.springframework.org/schema/tx/spring-aop.xsd"
+
+>
+    <!-- 开启注解扫描，要扫描的是service和dao层的注解，要忽略web层注解，因为web层让SpringMVC框架
+       去管理 -->
+    <context:component-scan base-package="yb"/>
+
+
+    <!-- 开启注解扫描，要扫描的是service和dao层的注解，要忽略web层注解，因为web层让SpringMVC框架
+       去管理 -->
+    <context:property-placeholder location="classpath:jdbc.properties"/>
+    <bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource" init-method="init" destroy-method="close">
+        <!--注入数据库连接属性 -->
+        <property name="driverClassName"  value="${driver}"/>
+        <property name="url" value="${url}"/>
+        <property name="username" value="${user}"/>
+        <property name="password" value="${password}"/>
+
+        <!-- 注入连接池配置属性 -->
+        <!-- 最大连接池数量 -->
+        <property name="maxActive" value="${maxActive}"/>
+
+        <!-- 初始化连接池创建的连接个数 -->
+        <property name="initialSize" value="${initialSize}"/>
+
+        <!-- 最小连接池数量,建议和初始化大小一致 -->
+        <property name="minIdle" value="${minIdle}"/>
+
+        <!-- 获取连接最大等待时间,超时则抛异常 单位:毫秒 -->
+        <property name="maxWait" value="${maxWait}"/>
+
+        <!-- 连接保持空闲而不被驱逐出连接池 单位 : 毫秒 -->
+
+        <property name="minEvictableIdleTimeMillis" value="${minEvictableIdleTimeMillis}"/>
+
+        <!-- 销毁连接的线程检测的间隔时间,单位: 毫秒 -->
+        <property name="timeBetweenEvictionRunsMillis" value="${timeBetweenEvictionRunsMillis}"/>
+
+        <!-- 检测连接是否有效 -->
+        <property name="testWhileIdle" value="${testWhileIdle}"/>
+
+        <!-- 必须设置为true,才会触发检测 -->
+        <property name="testOnBorrow" value="${testOnBorrow}"/>
+
+        <!-- 归还连接池的时候,检测是否有效 -->
+        <property name="testOnReturn" value="${testOnReturn}"/>
+
+        <!-- 是否缓存PreparedStatement,mysql建议关闭 -->
+        <property name="poolPreparedStatements" value="${poolPreparedStatements}"/>
+
+        <!-- 定义一条伪sql,用于检查连接的可用性 -->
+
+        <property name="validationQuery" value="${validationQuery}"/>
+
+    </bean>
+
+    <!-- 3.配置SqlSessionFactory对象 -->
+    <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <!-- 注入数据库连接池 -->
+        <property name="dataSource" ref="dataSource" />
+        <property name="configLocation" value="classpath:mybatis-config.xml">
+        </property>
+        <!-- 扫描sql配置文件:mapper需要的xml文件 -->
+        <property name="mapperLocations" value="classpath:yb/mapper/*.xml" />
+
+
+    </bean>
+
+    <!-- 4.配置扫描Dao接口包，动态实现Dao接口，注入到spring容器中 -->
+    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <!-- 注入sqlSessionFactory -->
+        <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory" />
+        <!-- 给出需要扫描Dao接口包 -->
+        <property name="basePackage" value="yb.mapper" />
+    </bean>
+    <!-- 配置事务管理器 -->
+    <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <!-- 注入数据库连接池 -->
+        <property name="dataSource" ref="dataSource" />
+    </bean>
+    <!--写了这个 在service上加@Transactional就支持默认配置了-->
+    <tx:annotation-driven transaction-manager="transactionManager"/>
+
+    <!-- //这个注释以下的可以配但是没有必要 你配了人家也和你说是冗余的配置  只是告诉你有公司这样去配   配置事务增强
+     <tx:advice id="txAdvice" transaction-manager="transactionManager">
+         <tx:attributes>
+             <tx:method name="save*" propagation="REQUIRED" />
+             <tx:method name="insert*" propagation="REQUIRED" />
+             <tx:method name="add*" propagation="REQUIRED" />
+             <tx:method name="create*" propagation="REQUIRED" />
+             <tx:method name="delete*" propagation="REQUIRED" />
+             <tx:method name="update*" propagation="REQUIRED" />
+             <tx:method name="find*" propagation="SUPPORTS" read-only="true" />
+             <tx:method name="select*" propagation="SUPPORTS" read-only="true" />
+             <tx:method name="get*" propagation="SUPPORTS" read-only="true" />
+         </tx:attributes>
+     </tx:advice>
+   &lt;!&ndash; Propagation.REQUIRED：如果当前没有事务，就新建一个事务，如果已经存在一个事务中，则加入到这个事务中。默认属性，也是最常使用。
+      Propagation.NESTED：如果当前存在事务，则在嵌套事务内执行。如果当前没有事务，则执行与Propagation.REQUIRED类似的操作。
+      Propagation.REQUIRES_NEW：新建事务，如果当前存在事务，把当前事务挂起。
+      Propagation.SUPPORTS：支持当前事务，如果当前没有事务，就以非事务方式执行。
+      Propagation.MANDATORY：使用当前的事务，如果当前没有事务，就抛出异常。
+      Propagation.NOT_SUPPORTED：以非事务方式执行操作，如果当前存在事务，就把当前事务挂起。
+      PROPAGATION_NEVER：以非事务方式执行，如果当前存在事务，则抛出异常。&ndash;&gt;
+     <aop:config>
+         <aop:advisor advice-ref="txAdvice"
+                      pointcut="execution(* t327.service..*(..))" />
+     </aop:config>-->
+
+
+</beans>

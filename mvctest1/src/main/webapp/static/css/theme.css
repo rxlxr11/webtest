@@ -1,0 +1,35 @@
+table {
+    display: inline-block;
+    text-align: center;
+    border: 1px;
+    border-collapse: collapse;
+    border-color: black;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+}
+
+.title {
+    text-align: center;
+    font-size: 35px;
+    margin: 10px;
+    font-weight: 600;
+}
+
+tr:nth-child(odd) {
+    background-color: rgba(82, 146, 237, 0.56);
+}
+
+tr:first-child {
+    background-color: rgba(0, 102, 255, 0.56);
+}
+
+.table-container {
+
+    text-align: center;
+    border: 1px;
+    border-collapse: collapse;
+    border-color: black;
+}

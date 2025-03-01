@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="yb.mapper.StudentInfoMapper">
+    <update id="updateById">
+        update studentinfo set
+
+                               sname=#{sname},
+                               sgender=#{sgender},
+                               sage=#{sage},
+                               saddress=#{saddress},
+                               semail=#{semail}
+        where sid=#{sid}
+
+
+
+    </update>
+    <delete id="deleteById">
+        delete from studentinfo where sid=#{id}
+    </delete>
+
+    <select id="queryAll" resultType="yb.pojo.StudentInfo">
+        select * from studentinfo
+    </select>
+
+    <select id="queryById" resultType="yb.pojo.StudentInfo">
+        select * from studentinfo where sid=#{id}
+    </select>
+</mapper>

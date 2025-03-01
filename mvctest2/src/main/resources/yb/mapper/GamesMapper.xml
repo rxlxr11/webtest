@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="yb.mapper.GamesMapper">
+    <insert id="addGame">
+        insert into games values (default,#{gameName},#{gameType},#{gameCompany},#{gameYear})
+    </insert>
+
+    <select id="queryByCondition" resultType="yb.pojo.Games">
+        select * from games
+        <where>
+            <if test="gameName != null and gameName!=''">
+                gamename like CONCAT('%', #{gameName}, '%')
+            </if>
+            <if test="gameType != null and gameType!=''">
+                AND gametype = #{gameType}
+            </if>
+            <if test="gameCompany != null and gameCompany!=''">
+                AND gameCompany = #{gameCompany}
+            </if>
+            <if test="gameYear != null ">
+                AND gameYear = #{gameYear}
+            </if>
+        </where>
+
+    </select>
+    <select id="queryByName" resultType="yb.pojo.Games">
+        select * from games where gamename=#{name}
+    </select>
+</mapper>

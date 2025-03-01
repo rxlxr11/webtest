@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="yb.mapper.CommodityMapper">
+
+    <resultMap id="commodityTypeView" type="yb.pojo.Commodity">
+        <result property="commodityId" column="commodity_id"/>
+        <result property="commodityName" column="commodity_name"/>
+        <result property="commodityPrice" column="commodity_price"/>
+        <result property="commodityCount" column="commodity_count"/>
+        <association property="type" javaType="yb.pojo.Type">
+            <result property="typeId" column="type_id"/>
+            <result property="typeName" column="type_name"/>
+        </association>
+    </resultMap>
+
+    <select id="queryPage" resultMap="commodityTypeView">
+        select * from commodity c join type t on c.type_id=t.type_id
+        <where>
+            <if test="condition.commodityName != null">
+                AND commodity_name like  CONCAT('%', #{condition.commodityName}, '%')
+            </if>
+            <if test="condition.minPrice != null">
+                AND commodity_price &gt; #{condition.minPrice}
+            </if>
+            <if test="condition.maxPrice != null">
+                AND commodity_price &lt; #{condition.maxPrice}
+            </if>
+            <if test="condition.typeId != null">
+                AND type_id = #{condition.typeId}
+            </if>
+        </where>
+        limit #{offSet},5
+    </select>
+    <select id="queryCommodityCountInt" resultType="java.lang.Integer">
+        select count(commodity_id) from  commodity;
+    </select>
+</mapper>
