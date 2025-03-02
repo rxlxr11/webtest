@@ -11,6 +11,7 @@
     <title>list</title>
 </head>
 <script src="${pageContext.request.contextPath}/static/js/jquery.js"></script>
+<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/static/css/style.css">
 <body>
 <div class="head-container">
     <form id="conditionForm">
@@ -20,11 +21,11 @@
         </div>
         <div>
             <span>最低价</span>
-            <input type="text" name="minPrice">
+            <input type="number" name="minPrice">
         </div>
         <div>
             <span>最高价</span>
-            <input type="text" name="maxPrice">
+            <input type="number" name="maxPrice">
         </div>
 
         <div>

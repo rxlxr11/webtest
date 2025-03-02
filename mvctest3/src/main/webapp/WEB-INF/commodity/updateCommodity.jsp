@@ -11,43 +11,51 @@
     <title>Title</title>
 </head>
 <script src="${pageContext.request.contextPath}/static/js/jquery.js"></script>
+<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/static/css/addPage.css">
 <body>
-<form id="updateCommodityForm">
-    <input type="text" name="commodityId" hidden="hidden" readonly>
-    <div>
-        <span>名称</span>
-        <input type="text" name="commodityName">
-    </div>
+<div>
+    <form id="updateCommodityForm">
+        <input type="text" name="commodityId" hidden="hidden" readonly>
+        <div>
+            <span>名称</span>
+            <input type="text" name="commodityName">
+        </div>
 
-    <div>
-        <span>价格</span>
-        <input type="number" name="commodityPrice">
-    </div>
-    <div>
-        <span>数量</span>
-        <input type="number" name="commodityCount">
-    </div>
+        <div>
+            <span>价格</span>
+            <input type="number" name="commodityPrice">
+        </div>
+        <div>
+            <span>数量</span>
+            <input type="number" name="commodityCount">
+        </div>
 
-    <div>
-        <span>类型</span>
-        <select name="typeId" id="typeSelect">
-            <option value="0">--请选择--</option>
-        </select>
-    </div>
+        <div>
+            <span>类型</span>
+            <select name="typeId" id="typeSelect">
+                <option value="0">--请选择--</option>
+            </select>
+        </div>
+    </form>
+</div>
 
+<div>
+    <button onclick="confirmForm()">修改</button>
+</div>
 
-
-</form>
-<button onclick="confirmForm()">修改</button>
 </body>
 </html>
 <script type="text/javascript">
     var id = ${param.id};
-    getTypes();
-    queryById(id);
+    init()
 
-    function queryById(id){
-        $.ajax({
+    async function init(){
+        await getTypes();
+        await queryById(id);
+    }
+
+    async function queryById(id){
+        await $.ajax({
             url: "${pageContext.request.contextPath}/commodity/queryById?id="+id,
             type: "get",
             dataType: "json",
@@ -105,8 +113,8 @@
 
     }
 
-    function getTypes(){
-        $.ajax({
+    async function getTypes(){
+        await $.ajax({
             url: "${pageContext.request.contextPath}/type/queryAll",
             type: "get",
             dataType: "json",

@@ -11,15 +11,22 @@
     <title>Title</title>
 </head>
 <script src="${pageContext.request.contextPath}/static/js/jquery.js"></script>
+<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/static/css/addPage.css">
 <body>
-<form id="addTypeForm">
-    <div>
-        <span>名称</span>
-        <input type="text" name="typeName">
-    </div>
+<div>
+    <form id="addTypeForm">
+        <div>
+            <span>名称</span>
+            <input type="text" name="typeName">
+        </div>
 
-</form>
-<button onclick="confirmForm()">新增</button>
+    </form>
+</div>
+
+<div>
+    <button onclick="confirmForm()">新增</button>
+</div>
+
 </body>
 </html>
 <script type="text/javascript">

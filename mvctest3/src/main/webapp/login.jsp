@@ -10,23 +10,28 @@
 <head>
     <title>login</title>
 </head>
+<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/static/css/login.css">
 <script src="${pageContext.request.contextPath}/static/js/jquery.js"></script>
 <body>
+<div>
+    <form id="loginForm">
+        <div>
+            <span>username</span>
+            <input type="text" name="userName">
+        </div>
 
-<form id="loginForm">
-    <div>
-        <span>username</span>
-        <input type="text" name="userName">
-    </div>
+        <div>
+            <span>password</span>
+            <input type="password" name="password">
+        </div>
 
-    <div>
-        <span>password</span>
-        <input type="password" name="password">
-    </div>
+    </form>
+</div>
 
-</form>
+<div>
+    <button onclick="login()">login</button>
+</div>
 
-<button onclick="login()">login</button>
 
 </body>
 </html>
