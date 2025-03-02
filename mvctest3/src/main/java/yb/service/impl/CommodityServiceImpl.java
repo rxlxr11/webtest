@@ -31,4 +31,29 @@ public class CommodityServiceImpl implements ICommodityService {
 
         return stringObjectHashMap;
     }
+
+    @Override
+    public int addCommodity(Commodity commodity) {
+        return commodityMapper.addCommodity(commodity);
+    }
+
+    @Override
+    public List<Commodity> queryByName(String name) {
+        return commodityMapper.queryByName(name);
+    }
+
+    @Override
+    public int deleteById(Integer id) {
+        return commodityMapper.deleteById(id);
+    }
+
+    @Override
+    public Commodity queryById(Integer id) {
+        return commodityMapper.queryById(id);
+    }
+
+    @Override
+    public int updateById(Commodity commodity) {
+        return commodityMapper.updateById(commodity);
+    }
 }

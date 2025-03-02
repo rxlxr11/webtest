@@ -14,11 +14,25 @@
             <result property="typeName" column="type_name"/>
         </association>
     </resultMap>
+    <insert id="addCommodity">
+        insert into commodity value (default,#{commodityName},#{commodityPrice},#{commodityCount},#{typeId})
+    </insert>
+    <update id="updateById">
+        update commodity set
+                             commodity_name = #{commodityName},
+                             commodity_price = #{commodityPrice},
+                             commodity_count = #{commodityCount},
+                             type_id = #{typeId}
+        where commodity_id = #{commodityId}
+    </update>
+    <delete id="deleteById">
+        delete from commodity where commodity_id=#{id}
+    </delete>
 
     <select id="queryPage" resultMap="commodityTypeView">
         select * from commodity c join type t on c.type_id=t.type_id
         <where>
-            <if test="condition.commodityName != null">
+            <if test="condition.commodityName != null and condition.commodityName !=''">
                 AND commodity_name like  CONCAT('%', #{condition.commodityName}, '%')
             </if>
             <if test="condition.minPrice != null">
@@ -28,12 +42,18 @@
                 AND commodity_price &lt; #{condition.maxPrice}
             </if>
             <if test="condition.typeId != null">
-                AND type_id = #{condition.typeId}
+                AND c.type_id = #{condition.typeId}
             </if>
         </where>
         limit #{offSet},5
     </select>
     <select id="queryCommodityCountInt" resultType="java.lang.Integer">
         select count(commodity_id) from  commodity;
+    </select>
+    <select id="queryByName" resultType="yb.pojo.Commodity">
+        select * from commodity where commodity_name=#{name}
+    </select>
+    <select id="queryById" resultType="yb.pojo.Commodity">
+        select * from commodity where  commodity_id=#{id}
     </select>
 </mapper>

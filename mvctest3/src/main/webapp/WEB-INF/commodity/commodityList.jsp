@@ -14,12 +14,26 @@
 <body>
 <div class="head-container">
     <form id="conditionForm">
-        <input type="text" name="commodityName">
-        <input type="text" name="minPrice">
-        <input type="text" name="maxPrice">
-        <select name="typeId" id="typeSelect">
-            <option value="0">--请选择--</option>
-        </select>
+        <div>
+            <span>名称</span>
+            <input type="text" name="commodityName">
+        </div>
+        <div>
+            <span>最低价</span>
+            <input type="text" name="minPrice">
+        </div>
+        <div>
+            <span>最高价</span>
+            <input type="text" name="maxPrice">
+        </div>
+
+        <div>
+            <span>类型</span>
+            <select name="typeId" id="typeSelect">
+                <option value="0">--请选择--</option>
+            </select>
+        </div>
+
     </form>
     <button onclick="setCondition()">查询</button>
     <button onclick="ResetCondition()">重置</button>
@@ -63,6 +77,7 @@
 
     queryPage(1);
     getTypes();
+
     function queryPage(page){
         $.ajax({
             url: "${pageContext.request.contextPath}/commodity/queryPage?curPage="+page,
@@ -81,7 +96,7 @@
             <td>\${commodities[i].commodityCount}</td>
             <td>\${commodities[i].type.typeName}</td>
                         <td><a href="javascript:;" onclick="toUpdateCommodity(\${commodities[i].commodityId})">修改</a>
-                <a href="javascript:;" onclick="deleteByIs(\${commodities[i].commodityId})">删除</a>
+                <a href="javascript:;" onclick="deleteById(\${commodities[i].commodityId})">删除</a>
             </td>
         </tr>
 
@@ -109,7 +124,7 @@
                 typeSelect.append('<option value="">--请选择--</option>');
 
                 $.each(result, function (index, type) {
-                        typeSelect.append('<option value="' + type.typeId + '">' + type.typeName + '</option>');
+                    typeSelect.append('<option value="' + type.typeId + '">' + type.typeName + '</option>');
                 })
 
             },
@@ -119,16 +134,17 @@
         })
     }
 
+
     function setCondition() {
         var condition = {
-            commodityName: $("input:eq(0)").val(),
-            minPrice: $("input:eq(1)").val(),
-            maxPrice: $("input:eq(2)").val(),
+            commodityName: $("input[name='commodityName']").val(),
+            minPrice: $("input[name='minPrice']").val(),
+            maxPrice: $("input[name='maxPrice']").val(),
             typeId: $("#typeSelect").val()
         };
 
         $.ajax({
-            url: "${pageContext.request.contextPath}/commodity/setCondition",
+            url: "${pageContext.request.contextPath}/page/setCondition",
             type: "post",
             contentType: "application/json;charset=utf-8",
             data: JSON.stringify(condition),
@@ -148,10 +164,11 @@
     }
 
     function deleteById(id) {
-        if (confirm("确定要删除该商品吗？")) {
+        if (confirm("确定要删除该商品")) {
             $.ajax({
                 url: "${pageContext.request.contextPath}/commodity/deleteById?id=" + id,
-                type: "get",
+                type: "delete",
+                dataType: "text",
                 success: function (result) {
                     if (result === "success") {
                         alert("删除成功");
@@ -168,7 +185,7 @@
     }
 
     function toUpdateCommodity(id){
-        window.location.href="${pageContext.request.contextPath}/page/toUpdateCommodity"
+        window.location.href="${pageContext.request.contextPath}/page/toUpdateCommodity?id="+id;
     }
 
     function toAddCommodity(){

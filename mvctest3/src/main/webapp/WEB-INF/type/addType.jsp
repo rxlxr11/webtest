@@ -14,11 +14,12 @@
 <body>
 <form id="addTypeForm">
     <div>
+        <span>名称</span>
         <input type="text" name="typeName">
     </div>
 
 </form>
-<button onclick="addType()">新增</button>
+<button onclick="confirmForm()">新增</button>
 </body>
 </html>
 <script type="text/javascript">
@@ -39,7 +40,7 @@
             success: function (result){
                 alert(result);
                 if (result=="success"){
-                    window.location.href
+                    window.location.href="${pageContext.request.contextPath}/page/toCommodityList"
                 }
 
             },
@@ -47,5 +48,30 @@
                 alert("网络忙")
             }
         })
+    }
+
+    function confirmForm(){
+        var name = $("input[name='typeName']").val();
+        if (name==null||name==''){
+            alert("名称为空")
+        }else {
+            $.ajax({
+                url: "${pageContext.request.contextPath}/type/queryByName?name="+name,
+                type: "get",
+                dataType: "text",
+                success: function (result){
+                    if (result=="yes"){
+                        addType();
+                    }else {
+                        alert("名称为空或者重复")
+                    }
+
+                },
+                error: function (){
+                    alert("网络忙")
+                }
+            })
+        }
+
     }
 </script>

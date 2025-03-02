@@ -3,8 +3,14 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="yb.mapper.TypeMapper">
+    <insert id="addType">
+        insert into type value (default,#{typeName});
+    </insert>
 
     <select id="queryAll" resultType="yb.pojo.Type">
         select * from type;
+    </select>
+    <select id="queryByName" resultType="yb.pojo.Type">
+        select * from type where type_name=#{name};
     </select>
 </mapper>

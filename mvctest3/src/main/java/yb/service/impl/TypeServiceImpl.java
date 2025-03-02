@@ -19,4 +19,14 @@ public class TypeServiceImpl implements ITypeService {
     public List<Type> queryAll() {
         return typeMapper.queryAll();
     }
+
+    @Override
+    public List<Type> queryByName(String name) {
+        return typeMapper.queryByName(name);
+    }
+
+    @Override
+    public int addType(Type type) {
+        return typeMapper.addType(type);
+    }
 }
